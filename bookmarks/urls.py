@@ -26,8 +26,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('account.urls')),
     path('account/', include('django.contrib.auth.urls')),
-    path('images/', include('images.urls')),
-    url(r'social-auth/', include('social_django.urls', namespace='social')),
+    url(r'^images/', include(('images.urls', 'images'), namespace='images')),
+    url(r'^social-auth/', include('social_django.urls', namespace='social')),
 ]
 
 

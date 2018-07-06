@@ -5,7 +5,7 @@
   var min_width = 100;
   var min_height = 100;
 
-  var host_url      = window.location.href;     // Returns full URL
+  var host_url  = window.location.href; // Returns full URL
 
 
     function bookmarklet(msg) {
