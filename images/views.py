@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import ImageCreationForm
-
+from .models import Image
 # Create your views here.
 
 def image_create(request):
@@ -29,4 +29,11 @@ def image_create(request):
                    'section': 'images'})
 
 
-'''Adding some documentation to the social/views'''
+
+def image_detail(request, id, slug):
+    '''returning a details page view for each image'''
+
+    image = get_object_or_404(Image, id=id, slug=slug)
+    return render(request, 'images/image/details.html',
+                  {'image': image,
+                   'section': 'images'})
