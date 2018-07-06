@@ -9,7 +9,7 @@ class ImageCreationForm(forms.ModelForm):
     class Meta:
         model = Image
         fields = ('title', 'url', 'description')
-        widgets = {'url': forms.HiddenInput}
+        # widgets = {'url': forms.HiddenInput}
 
 
     def clean_url(self):

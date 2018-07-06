@@ -5,5 +5,6 @@ from . import views
 
 urlpatterns = [
     url(r'^create/$', views.image_create, name='create'),
-    url('^detail/(?P<id>\d+)/(?P<slug>[-\w]+)/$', views.image_detail, name='details')
+    url('^detail/(?P<id>\d+)/(?P<slug>[-\w]+)/$', views.image_detail, name='details'),
+    url('^like/$', views.image_like, name='like')
 ]
