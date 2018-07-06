@@ -27,3 +27,6 @@ def image_create(request):
                   'images/image/create.html',
                   {'form': form,
                    'section': 'images'})
+
+
+'''Adding some documentation to the social/views'''
