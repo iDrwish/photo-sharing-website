@@ -42,26 +42,58 @@
         {% endblock %}
     </div>
 
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>-->
+    <!--<script src=" http://cdn.jsdelivr.net/jquery.cookie/1.4.1/jquery.cookie.min.js "></script>-->
+    <!--<script>-->
+    <!--var csrftoken = $.cookie('csrftoken');-->
+    <!--function csrfSafeMethod(method) {-->
+    <!--// these HTTP methods do not require CSRF protection-->
+    <!--return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));-->
+    <!--}-->
+    <!--$.ajaxSetup({-->
+    <!--beforeSend: function(xhr, settings) {-->
+    <!--if (!csrfSafeMethod(settings.type) && !this.crossDomain) {-->
+    <!--xhr.setRequestHeader("X-CSRFToken", csrftoken);-->
+    <!--}-->
+    <!--}-->
+    <!--});-->
+
+    <!--$(document).ready(function(){-->
+    <!--{% block domready %}-->
+    <!--{% endblock %}-->
+    <!--});-->
+    <!--</script>-->
+
+
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src=" http://cdn.jsdelivr.net/jquery.cookie/1.4.1/jquery.cookie.min.js "></script>
+    <script src="http://cdn.jsdelivr.net/jquery.cookie/1.4.1/jquery.cookie.min.js "></script>
+    <!--Creating a function to verify safe requests-->
+    <!--Making sure that the request is not safe and is not cross domain-->
+    <!--if so, instainciate the ajaxSetup function and inject the CSRF token in header-->
     <script>
         var csrftoken = $.cookie('csrftoken');
         function csrfSafeMethod(method) {
-            // these HTTP methods do not require CSRF protection
-            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        // there HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
         }
         $.ajaxSetup({
-            beforeSend: function(xhr, settings) {
-                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                }
-            }
+        beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain){
+        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+        }
         });
 
-        $(document).ready(function(){
-            {% block domready %}
-            {% endblock %}
-		});
+
+    </script>
+
+    <script>
+    $(document).ready(function(){
+    {% block domready %}
+    {% endblock %}
+    });
+
     </script>
 </body>
 </html>
