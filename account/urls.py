@@ -10,6 +10,8 @@ urlpatterns = [
     url(r'^$', views.dashboard, name='dashboard'),
     url(r'^register/$', views.register, name='register'),
     url(r'^edit/$', views.edit, name='edit'),
+    url(r'^users/$', views.user_list, name='user_list'),
+    url(r'^users/(?P<username>.+)/$', views.user_detail, name='user_detail')
 
     # # login / logout urls
     # url(r'^login/$', auth_views.login, name='login'),

@@ -67,6 +67,7 @@ def image_like(request):
     return JsonResponse({'status': 'ko'})
 
 
+@Ajax_required
 @login_required
 @require_POST
 def image_like(request):
@@ -85,7 +86,7 @@ def image_like(request):
         except:
             pass
     return JsonResponse({'status': 'ko'})
-
+1
 @login_required
 def image_list(request):
    images = Image.objects.all()
