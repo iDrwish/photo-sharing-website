@@ -8,6 +8,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 
 from common.decorators import Ajax_required
+from actions.utils import create_action
 from .forms import ImageCreationForm
 from .models import Image
 
@@ -25,6 +26,7 @@ def image_create(request):
 
             new_item.user = request.user
             new_item.save()
+            create_action(request.user, 'bookmarked image', new_item)
             messages.success(request, 'Image added successfully')
 
             return redirect(new_item.get_absolute_url())
@@ -58,8 +60,10 @@ def image_like(request):
             image = Image.objects.get(id=image_id)
             if action == 'like':
                 image.user_like.add(request.user)
+                create_action(request.user, 'like image', image)
             else:
                 image.user_like.remove(request.user)
+                create_action(request.user, 'unlike image', image)
 
             return JsonResponse({'status': 'ok'})
         except:
@@ -67,26 +71,6 @@ def image_like(request):
     return JsonResponse({'status': 'ko'})
 
 
-@Ajax_required
-@login_required
-@require_POST
-def image_like(request):
-    image_id = request.POST.get('id')
-    action = request.POST.get('action')
-    user = request.user
-
-    if image_id and action:
-        try:
-            image = Image.objects.get(id=image_id)
-            if action == 'like':
-                image.user_like.add(user)
-            else:
-                image.user_like.remove(user)
-            return JsonResponse({'status': 'ok'})
-        except:
-            pass
-    return JsonResponse({'status': 'ko'})
-1
 @login_required
 def image_list(request):
    images = Image.objects.all()

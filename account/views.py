@@ -1,3 +1,4 @@
+from actions.utils import create_action
 from common.decorators import Ajax_required
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -42,8 +43,8 @@ def register(request):
             new_user = user_form.save(commit=False)
             new_user.set_password(cd['password'])
             new_user.save()
-
             profile = Profile.objects.create(user=new_user)
+            create_action(new_user, 'created an account')
 
             return render(request, 'account/register_done.html',
                           {'new_user': new_user})
@@ -117,9 +118,11 @@ def user_follow(request):
             if action == 'follow':
                 Contact.objects.get_or_create(user_from=request.user,
                                               user_to=user)
+                create_action(request.user, 'followed', user)
             else:
                 Contact.objects.filter(user_from=request.user,
                                        user_to=user).delete()
+                create_action(request.user, 'unfollowed', user)
             return JsonResponse({'status':'ok'})
         except User.DoesNotExist:
             return JsonResponse({'status': 'ko'})

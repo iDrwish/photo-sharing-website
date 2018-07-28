@@ -16,7 +16,8 @@ class Action(models.Model):
                                      null=True,
                                      related_name='target_obj',
                                    db_index=True,
-                                  on_delete='CASCADE')
+                                  on_delete='CASCADE',
+                                  limit_choices_to=[''])
     target_id = models.PositiveIntegerField(null=True,
                                             blank=True,
                                             db_index=True)
