@@ -10,4 +10,3 @@ def user_like_changed(sender, instance, **kwargs):
     to populate it'''
     instance.total_likes = instance.user_like.count()
     instance.save()
-    print(instance.total_likes, instance.user_like.count(), instance.user, instance.user_id, instance.title)

@@ -60,11 +60,9 @@ def image_like(request):
             image = Image.objects.get(id=image_id)
             if action == 'like':
                 image.user_like.add(request.user)
-                image.total_likes = image.user_like.count()
                 create_action(request.user, 'like image', image)
             else:
                 image.user_like.remove(request.user)
-                image.total_likes = image.user_like.count()
                 create_action(request.user, 'unlike image', image)
 
             return JsonResponse({'status': 'ok'})
