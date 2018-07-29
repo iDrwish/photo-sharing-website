@@ -6,13 +6,18 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
+from django.conf import settings
 
 from common.decorators import Ajax_required
 from actions.utils import create_action
 from .forms import ImageCreationForm
 from .models import Image
+import redis
 
 
+r = redis.StrictRedis(host=settings.REDIS_HOST,
+                      port=settings.REDIS_PORT,
+                      db=settings.REDIS_DF)
 # Create your views here.
 
 def image_create(request):
@@ -44,9 +49,12 @@ def image_create(request):
 def image_detail(request, id, slug):
     '''returning a details page view for each image'''
     image = get_object_or_404(Image, id=id, slug=slug)
+    # Increment image view by one
+    total_views = r.incr('image:{}:view'.format(image.id))
     return render(request, 'images/image/detail.html',
                   {'image': image,
-                   'section': 'images'})
+                   'section': 'images',
+                   'total_views': total_views})
 
 @Ajax_required
 @login_required
