@@ -1,5 +1,6 @@
 from actions.utils import create_action
 from common.decorators import Ajax_required
+from actions.models import Action
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -58,7 +59,23 @@ def register(request):
 
 @login_required
 def dashboard(request):
-    return render(request, 'account/dashboard.html', {'section': 'dashboard'})
+    # Display activity stream
+    actions = Action.objects.exclude(user=request.user)
+    following_ids = request.user.following.values_list('id', flat=True)
+
+    if following_ids:
+        # If user if following others, retrieve only their information
+        # user select_related to do a joinon the ForignKeys instead of doing multiple queries
+        actions = (actions
+                   .filter(user_id__in=following_ids)
+                   .select_related('user', 'user__profile')
+                   .prefetch_related('target'))
+    actions = actions[:10]
+
+    return render(request,
+                  'account/dashboard.html',
+                  {'section': 'dashboard',
+                   'actions': actions})
 
 
 @login_required

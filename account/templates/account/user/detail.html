@@ -16,8 +16,6 @@
     follower{{ total_followers|pluralize }}
 </span>
 
-{% if not request.user.id is user.id %}
-<!--To make sure you don't follow yourself-->
 
 <a href="#" data-id="{{ user.id }}" data-action="{% if request.user in user.followers.all %}un{% endif %}follow"
    class="follow button">
@@ -27,7 +25,6 @@
     Follow
     {% endif %}
 </a>
-{% endif %}
 
 <div id="image-list" class="image-container">
     {% include "images/image/list_ajax.html" with images=user.images_created.all %}

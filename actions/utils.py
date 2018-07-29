@@ -13,11 +13,15 @@ def create_action(user, verb, target=None):
     to tell if the action was saved or not.
     '''
 
+    # Events happend within a minute, check created__lte
+    # created__gte for lower and upper bounds
+
     now = timezone.now()
     last_minute = now - datetime.timedelta(seconds=60)
     similar_actions = Action.objects.filter(user_id=user.id,
                                             verb=verb,
-                                            timestamp__gte=last_minute)
+                                            created__lte=last_minute)
+
 
     if target:
         target_ct = ContentType.objects.get_for_model(target)
